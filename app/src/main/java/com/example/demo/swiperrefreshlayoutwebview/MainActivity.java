@@ -10,11 +10,15 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     private View view;
     public WebView webview;
     private SwipeRefreshLayout swipeLayout;
+    private LinearLayout containerLL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        containerLL = (LinearLayout) findViewById(R.id.containerLL);
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         swipeLayout.setRefreshing(false);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -125,5 +130,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int random = (new Random()).nextInt(10);
+        if ( random < 5){
+            swipeLayout.setVisibility(View.VISIBLE);
+            containerLL.setVisibility(View.GONE);
+        } else {
+            containerLL.setVisibility(View.VISIBLE);
+            swipeLayout.setVisibility(View.GONE);
+        }
     }
 }
